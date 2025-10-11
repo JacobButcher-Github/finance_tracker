@@ -4,17 +4,11 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]()
-
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 - [![React][React.js]][React-url]
 - [![Vite][vite.dev]][vite-url]
--
+- [![FastAPI][FastAPI.com]][FastAPI-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -22,12 +16,7 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 
 - npm
   ```sh
@@ -76,8 +65,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 3
   - [ ] Nested Feature
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -87,3 +74,5 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 [React-url]: https://reactjs.org/
 [vite.dev]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white
 [vite-url]: https://vite.dev/
+[FastAPI.com]: https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
+[FastAPI-url]: https://fastapi.tiangolo.com/
