@@ -1,5 +1,5 @@
 # UV/PDM
-from aiopg.connection import Connection
+from asyncpg import Connection
 
 # LOCAL
 from ..common import database_execute, database_fetch

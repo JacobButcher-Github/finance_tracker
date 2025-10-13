@@ -2,12 +2,11 @@
 from datetime import datetime
 
 # UV/PDM
-import aiopg
-from aiopg.connection import Connection
+import asyncpg
+from asyncpg import Connection
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from psycopg2.extras import RealDictCursor
 
 # LOCAL
 from ..common import get_postgres_connection
