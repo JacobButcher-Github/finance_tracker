@@ -24,7 +24,7 @@ async def get_postgres_connection() -> Connection:
 
 
 async def database_execute(
-    db: Connection, query: str, args: Optional[Sequence[Any]] = None
+    db: Connection, query: str, args: Sequence[Any] | None = None
 ) -> None:
     """
     Execute a query (INSERT/UPDATE/DELETE) without returning results.

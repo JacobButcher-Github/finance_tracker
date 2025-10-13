@@ -1,6 +1,6 @@
 --TABLES
 CREATE TABLE IF NOT EXISTS income (
-  id INT UNIQUE,
+  id UNIQUE SERIAL,
   date DATE NOT NULL,
   gross MONEY NOT NULL,
   k401 MONEY NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS income (
 );
 
 CREATE TABLE IF NOT EXISTS expenditure (
-  id INT UNIQUE,
+  id UNIQUE SERIAL,
   date DATE NOT NULL,
   category TEXT CHECK (LENGTH (category) < 100),
   amount MONEY NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS net (
-  id INT UNIQUE,
+  id UNIQUE SERIAL,
   date DATE NOT NULL,
   checking MONEY,
   savings MONEY,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS net (
 );
 
 CREATE TABLE IF NOT EXISTS house (
-  id INT UNIQUE,
+  id UNIQUE SERIAL,
   purchase_price MONEY,
   down_payment MONEY,
   finance_amount MONEY,
