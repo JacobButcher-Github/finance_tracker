@@ -1,32 +1,45 @@
-from collections.abc import Sequence
+# STL
+from collections.abc import AsyncGenerator, Sequence
 from typing import Any
 
-import psycopg2
-from psycopg2 import extensions
+# UV/PDM
+import aiopg
+from aiopg.connection import Connection
 from psycopg2.extras import RealDictCursor
 
 
-def get_postgres_connection() -> extensions.connection:
-    connection = psycopg2.connect(
-        "dbname='finances-postgres' user='postgres' host='localhost' password='password'"
-    )  # name might be postgres, we'll find out
-    connection.autocommit = True  # execute queries immediately
+async def get_postgres_connection() -> Connection:
+    """
+    Create and return an async PostgreSQL connection.
+    """
+    connection: Connection = await aiopg.connect(
+        dbname="finances-postgres",
+        user="postgres",
+        host="localhost",
+        password="password",
+        cursor_factory=RealDictCursor,  # rows as dicts
+    )  # db name might be postgres, we'll find out
+    connection.autocommit = True
     return connection
 
 
-def database_execut(
-    db: extensions.connection, query: str, args: Sequence[Any] | None = None
+async def database_execute(
+    db: Connection, query: str, args: Optional[Sequence[Any]] = None
 ) -> None:
-    with db.cursor() as cur:
-        cur.execute(query, args)
+    """
+    Execute a query (INSERT/UPDATE/DELETE) without returning results.
+    """
+    async with db.cursor() as cur:
+        await cur.execute(query, args)
 
 
-def database_fetch(
-    db: extensions.connection,
-    query: str,
-    args: Sequence[Any] | None = None,
-):
-    with db.cursor() as cur:
-        cur.execute(query, args)
-        for record in cur:
+async def database_fetch(
+    db: Connection, query: str, args: Sequence[Any] | None = None
+) -> AsyncGenerator[dict[str, Any], None]:
+    """
+    Execute a SELECT query and yield each record asynchronously.
+    """
+    async with db.cursor() as cur:
+        await cur.execute(query, args)
+        async for record in cur:
             yield record
