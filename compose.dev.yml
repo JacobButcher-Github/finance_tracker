@@ -1,0 +1,24 @@
+---
+services:
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: backend/Dockerfile
+  db:
+    container_name: "finances-postgres"
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+  # finance_tracker:
+  #   build:
+  #     context: .
+  #     dockerfile:
+
+networks:
+  web:

@@ -2,7 +2,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+## About
 
 ### Built With
 
