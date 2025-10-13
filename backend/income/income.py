@@ -1,24 +1,20 @@
-# STL
-import asyncio
-from datetime import datetime
-from typing import Any
-
 # UV/PDM
-import aiopg
 from aiopg.connection import Connection
 
 # LOCAL
 from ..common import database_execute, database_fetch
 
 
-async def insert_income(db: Connection, item: dict[str, float | str]) -> None:
+async def insert(db: Connection, item: dict[str, float | str]) -> None:
     """
-    To be used by income "/add" endpoint to insert given data as a new month
+    To be used by income "/insert" endpoint to insert given data as a new month
     """
-    existing_str = (
-        f"SELECT * FROM income WHERE DATE_TRUNC('month', date) = {item["date"]}"
-    )
-    existing = database_fetch(db, existing_str)
+    existing_str = """
+        SELECT * 
+        FROM income 
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', TO_DATE(%s, 'YYYY-MM'))
+    """
+    existing = database_fetch(db, existing_str, (item["date"],))
 
     if existing:
         await multi_field_update_income(db)
@@ -53,27 +49,30 @@ async def insert_income(db: Connection, item: dict[str, float | str]) -> None:
             item["net_income"],
             item["total_tax"],
             item["tax_percent_income"],
-        ]
+        ],
     )
-       
-async def get_income(db: Connection, date_str: str):
+
+
+async def get(db: Connection, date_str: str):
     """
-    To be used by the "/" endpoint to return information on income. 
+    To be used by the "/" endpoint to return information on income.
     """
-    #TODO: consider that I'm going to use this when also increasing the number of months to view.
-    #I guess I need another enpoint?
-    #Perhaps get_multiple_income and just make it a different endpoint entirely is also reasonable.
+    # TODO: consider that I'm going to use this when also increasing the number of months to view.
+    # I guess I need another enpoint?
+    # Perhaps get_multiple_income and just make it a different endpoint entirely is also reasonable.
 
-    query = (
-        f"SELECT * FROM income WHERE DATE_TRUNC('month', date) = {date_str}"
-    )
-    return database_fetch(db, query)
+    query = """
+        SELECT * 
+        FROM income 
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', TO_DATE(%s, 'YYYY-MM'))
+    """
+    return database_fetch(db, query, (date_str,))
 
-async def update_income(db: Connection) -> None:
-    ...
 
-async def multi_field_update_income(db: Connection) -> None:
-    ...
+async def update_income(db: Connection) -> None: ...
 
-async def delete_income(db: Connection) -> None:
-    ...
+
+async def multi_field_update_income(db: Connection) -> None: ...
+
+
+async def delete_income(db: Connection) -> None: ...
