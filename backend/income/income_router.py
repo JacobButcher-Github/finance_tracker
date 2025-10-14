@@ -9,8 +9,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 # LOCAL
-from ..common import get_postgres_connection
-from ..schemas.income import Income
+from common import get_postgres_connection
+from schemas.income import Income
+
 from .income import get, insert
 
 income_router = APIRouter()
@@ -25,7 +26,7 @@ async def get_income(db: Connection = Depends(get_postgres_connection)):
     return JSONResponse(content=jsonable_encoder(results))
 
 
-@income_router.post("income/insert")
+@income_router.post("/income/insert")
 async def insert_income(
     income: Income, db: Connection = Depends(get_postgres_connection)
 ):

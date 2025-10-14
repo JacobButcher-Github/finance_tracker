@@ -1,4 +1,5 @@
 # STL
+import os
 from collections.abc import AsyncGenerator, Sequence
 from typing import Any
 
@@ -11,12 +12,10 @@ async def get_postgres_connection() -> Connection:
     """
     Create and return an async PostgreSQL connection.
     """
-    connection: Connection = await asyncpg.connect(
-        user="postgres",
-        password="password",
-        host="localhost",
-        database="finances-postgres",
-    )  # db name might be postgres, we'll find out
+    db_url = os.getenv("DATABASE_URL")
+    if db_url is None:
+        raise RuntimeError("DATABASE_URL is not set")
+    connection: asyncpg.Connection = await asyncpg.connect(dsn=db_url)
     return connection
 
 

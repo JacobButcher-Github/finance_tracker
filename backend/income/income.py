@@ -2,7 +2,7 @@
 from asyncpg import Connection
 
 # LOCAL
-from ..common import database_execute, database_fetch
+from common import database_execute, database_fetch
 
 
 async def insert(db: Connection, item: dict[str, float | str]) -> None:
