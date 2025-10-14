@@ -1,5 +1,5 @@
 # STL
-from datetime import datetime
+from datetime import date, datetime
 
 # UV/PDM
 import asyncpg
@@ -20,9 +20,8 @@ income_router = APIRouter()
 @income_router.get("/income/")
 async def get_income(db: Connection = Depends(get_postgres_connection)):
     # this probably needs to change. We need to get the *last* months info.
-    now = datetime.now()
-    date_str = now.strftime("%Y-%m")
-    results = await get(db, date_str)
+    now: date = datetime.now().date()
+    results = await get(db, now)
     return JSONResponse(content=jsonable_encoder(results))
 
 

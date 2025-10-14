@@ -1,8 +1,12 @@
+# STL
+from datetime import date
+
+# UV/PDM
 import pydantic
 
 
 class Income(pydantic.BaseModel):
-    date: str
+    date: date
     gross: float
     k401: float
     fed_tax: float
@@ -12,4 +16,4 @@ class Income(pydantic.BaseModel):
     other_income: float
     net_income: float
     total_tax: float
-    tax_percent: float
+    tax_percent_income: float

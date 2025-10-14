@@ -1,3 +1,6 @@
+# STL
+from datetime import date
+
 # UV/PDM
 from asyncpg import Connection
 
@@ -5,16 +8,16 @@ from asyncpg import Connection
 from common import database_execute, database_fetch
 
 
-async def insert(db: Connection, item: dict[str, float | str]) -> None:
+async def insert(db: Connection, item: dict[str, float | date]) -> None:
     """
     To be used by income "/insert" endpoint to insert given data as a new month
     """
     existing_str = """
         SELECT * 
         FROM income 
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', TO_DATE(%s, 'YYYY-MM'))
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
-    existing = database_fetch(db, existing_str, (item["date"],))
+    existing = await database_fetch(db, existing_str, (item["date"],))
 
     if existing:
         await multi_field_update_income(db)
@@ -53,7 +56,7 @@ async def insert(db: Connection, item: dict[str, float | str]) -> None:
     )
 
 
-async def get(db: Connection, date_str: str):
+async def get(db: Connection, date_info: date):
     """
     To be used by the "/" endpoint to return information on income.
     """
@@ -64,9 +67,9 @@ async def get(db: Connection, date_str: str):
     query = """
         SELECT * 
         FROM income 
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', TO_DATE(%s, 'YYYY-MM'))
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
-    return database_fetch(db, query, (date_str,))
+    return await database_fetch(db, query, (date_info,))
 
 
 async def update_income(db: Connection) -> None: ...
