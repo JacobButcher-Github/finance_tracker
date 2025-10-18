@@ -1,7 +1,6 @@
 --TABLES
 CREATE TABLE IF NOT EXISTS income (
-  id SERIAL UNIQUE,
-  date DATE NOT NULL,
+  date DATE NOT NULL UNIQUE,
   gross NUMERIC(12, 2) NOT NULL,
   k401 NUMERIC(12, 2) NOT NULL,
   fed_tax NUMERIC(12, 2) NOT NULL,
@@ -15,7 +14,7 @@ CREATE TABLE IF NOT EXISTS income (
     tax_percent_income <= 100
     AND tax_percent_income >= 0
   ),
-  PRIMARY KEY (id)
+  PRIMARY KEY (date)
 );
 
 CREATE TABLE IF NOT EXISTS expenditure (
@@ -26,8 +25,7 @@ CREATE TABLE IF NOT EXISTS expenditure (
 );
 
 CREATE TABLE IF NOT EXISTS net (
-  id SERIAL UNIQUE,
-  date DATE NOT NULL,
+  date DATE NOT NULL UNIQUE,
   checking NUMERIC(12, 2),
   savings NUMERIC(12, 2),
   ira NUMERIC(12, 2),
@@ -35,7 +33,8 @@ CREATE TABLE IF NOT EXISTS net (
   hsa NUMERIC(12, 2),
   asset_value NUMERIC(12, 2),
   asset_debt NUMERIC(12, 2),
-  other_debt NUMERIC(12, 2)
+  other_debt NUMERIC(12, 2),
+  PRIMARY KEY (date)
 );
 
 CREATE TABLE IF NOT EXISTS house (
@@ -53,8 +52,9 @@ CREATE TABLE IF NOT EXISTS house (
 );
 
 CREATE TABLE IF NOT EXISTS caps (
-  date DATE NOT NULL,
+  date DATE NOT NULL UNIQUE,
   k401 NUMERIC(12, 2),
   ira NUMERIC(12, 2),
-  hsa NUMERIC(12, 2)
+  hsa NUMERIC(12, 2),
+  PRIMARY KEY (date)
 );

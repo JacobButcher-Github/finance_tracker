@@ -27,7 +27,7 @@ async def insert(db: Connection, item: dict[str, float | date]) -> None:
         """
         INSERT INTO income (date, gross, k401, fed_tax, ss_tax, medicare_tax, state_tax, other_income, net_income, total_tax, tax_percent_income)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-        ON CONFLICT (id) DO UPDATE SET
+        ON CONFLICT (date) DO UPDATE SET
             date = EXCLUDED.date,
             gross = EXCLUDED.gross,
             k401 = EXCLUDED.k401,
