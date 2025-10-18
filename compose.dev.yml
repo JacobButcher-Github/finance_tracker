@@ -1,9 +1,22 @@
 ---
 services:
-  # api:
-  #   build:
-  #     context: .
-  #     dockerfile: backend/Dockerfile
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/finances
+    volumes:
+      - ./backend:/app
+    command:
+      ["uv", "run", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - web
+
   db:
     container_name: "finances-postgres"
     build:
@@ -12,13 +25,14 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=finances
     ports:
       - "5432:5432"
-  # finance_tracker:
-  #   build:
-  #     context: .
-  #     dockerfile:
-
+    networks:
+      - web
+# finance_tracker:
+#   build:
+#     context: .
+#     dockerfile:
 networks:
   web:

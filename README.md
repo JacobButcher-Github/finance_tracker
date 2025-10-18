@@ -8,6 +8,7 @@
 
 - [![Docker][Docker.com]][Docker-url]
 - [![React][React.js]][React-url]
+- [![TypeScript][TypeScript.org]][TypeScript-url]
 - [![Vite][vite.dev]][vite-url]
 - [![FastAPI][FastAPI.com]][FastAPI-url]
 
@@ -47,3 +48,5 @@
 [FastAPI-url]: https://fastapi.tiangolo.com/
 [docker.com]: https://img.shields.io/badge/docker-257bd6?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
+[TypeScript.org]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square
+[TypeScript-url]: https://www.typescriptlang.org/

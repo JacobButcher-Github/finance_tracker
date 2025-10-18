@@ -24,7 +24,7 @@ logs:
 	docker compose logs -f
 
 deps:
-	pdm install
+	uv pip install
 	npm install
 	npm run build
 
