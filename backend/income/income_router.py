@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 from common import get_postgres_connection
 from schemas.income import Income
 
-from .income import get, insert
+from .income import delete, get, insert
 
 income_router = APIRouter()
 
@@ -36,3 +36,8 @@ async def insert_income(
 
 @income_router.post("/income/add")
 async def update_income(db: Connection = Depends(get_postgres_connection)): ...
+
+
+@income_router.post("/income/delete")
+async def delete_income(date: date, db: Connection = Depends(get_postgres_connection)):
+    await delete(db, date)

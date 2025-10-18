@@ -78,7 +78,7 @@ async def update_income(db: Connection) -> None: ...
 async def multi_field_update_income(db: Connection) -> None: ...
 
 
-async def delete_income(db: Connection, date_info: date) -> None:
+async def delete(db: Connection, date_info: date) -> None:
     query = """
         DELETE *
         FROM income
