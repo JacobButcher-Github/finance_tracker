@@ -78,4 +78,10 @@ async def update_income(db: Connection) -> None: ...
 async def multi_field_update_income(db: Connection) -> None: ...
 
 
-async def delete_income(db: Connection) -> None: ...
+async def delete_income(db: Connection, date_info: date) -> None:
+    query = """
+        DELETE *
+        FROM income
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
+    """
+    return await database_execute(db, query, (date_info,))
