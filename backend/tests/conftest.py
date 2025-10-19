@@ -6,13 +6,12 @@ import os
 import asyncpg
 import pytest
 from asyncpg import Connection
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 
 # LOCAL
 from app import app
 from common import get_postgres_connection
-
-TEST_DATABASE_URL = "postgresql://postgres:password@localhost:5432/finances_test"
+from tests.constants import TEST_DATABASE_URL
 
 
 @pytest.fixture(scope="session")
@@ -27,9 +26,19 @@ def event_loop():
 async def test_db():
     """Create and teardown a clean test database."""
     conn = await asyncpg.connect(TEST_DATABASE_URL)
-    _ = await conn.execute("DROP SCHEMA finances CASCADE; CREATE SCHEMA finances;")
+    _ = await conn.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
     yield conn
     await conn.close()
+
+
+# async def ensure_test_database():
+#     admin_conn = await asyncpg.connect("postgresql://postgres:password@db:5432/postgres")
+#     exists = await admin_conn.fetchval(
+#         "SELECT 1 FROM pg_database WHERE datname = 'finances_test'"
+#     )
+#     if not exists:
+#         await admin_conn.execute("CREATE DATABASE finances_test;")
+#     await admin_conn.close()
 
 
 @pytest.fixture()
@@ -49,5 +58,7 @@ async def client(db_connection: Connection):
         yield db_connection
 
     app.dependency_overrides[get_postgres_connection] = _get_test_db
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac

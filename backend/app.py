@@ -2,6 +2,7 @@
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from expenditure.expenditure_router import expenditure_router
 # local
 from income.income_router import income_router
 
@@ -16,3 +17,4 @@ app.add_middleware(
 )
 
 app.include_router(income_router)
+app.include_router(expenditure_router)
