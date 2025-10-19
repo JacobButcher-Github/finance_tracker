@@ -1,4 +1,5 @@
 # STL
+from collections.abc import Sequence
 from datetime import date, datetime
 
 # UV/PDM
@@ -12,7 +13,7 @@ from fastapi.responses import JSONResponse
 from common import get_postgres_connection
 from schemas.income import Income
 
-from .income import delete, get_one, insert
+from .income import delete, get_many, get_one, insert
 
 income_router = APIRouter()
 
@@ -22,6 +23,14 @@ async def get_income(db: Connection = Depends(get_postgres_connection)):
     # this definitely needs to change. We need to get the *last* months info.
     now: date = datetime.now().date()
     results = await get_one(db, now)
+    return JSONResponse(content=jsonable_encoder(results))
+
+
+@income_router.get("/income/get")
+async def get_many_income(
+    dates: Sequence[date], db: Connection = Depends(get_postgres_connection)
+):
+    results = await get_many(db, dates)
     return JSONResponse(content=jsonable_encoder(results))
 
 
