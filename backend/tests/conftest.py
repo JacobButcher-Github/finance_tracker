@@ -12,9 +12,7 @@ from httpx import AsyncClient
 from app import app
 from common import get_postgres_connection
 
-TEST_DATABASE_URL = os.getenv("DATABASE_URL")
-if TEST_DATABASE_URL is None:
-    raise RuntimeError("DATABASE_URL is not set")
+TEST_DATABASE_URL = "postgresql://postgres:password@localhost:5432/finances_test"
 
 
 @pytest.fixture(scope="session")
@@ -29,6 +27,7 @@ def event_loop():
 async def test_db():
     """Create and teardown a clean test database."""
     conn = await asyncpg.connect(TEST_DATABASE_URL)
+    _ = await conn.execute("DROP SCHEMA finances CASCADE; CREATE SCHEMA finances;")
     yield conn
     await conn.close()
 

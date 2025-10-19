@@ -30,9 +30,22 @@ services:
       - "5432:5432"
     networks:
       - web
-# finance_tracker:
-#   build:
-#     context: .
-#     dockerfile:
+  # finance_tracker:
+  #   build:
+  #     context: .
+  #     dockerfile:
+  test:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/finances_test
+    depends_on:
+      - db
+    command: ["pytest", "-v", "--disable-warnings"]
+    volumes:
+      - ./backend:/app
+    networks:
+      - web
 networks:
   web:

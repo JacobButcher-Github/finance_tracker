@@ -25,8 +25,8 @@ logs:
 
 deps:
 	uv pip install
-	npm install
-	npm run build
+	yarn install
+	yarn run build
 
 build:
 	$(COMPOSE_DEV) build
