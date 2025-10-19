@@ -12,6 +12,7 @@ async def get_postgres_connection() -> Connection:
     """
     Create and return an async PostgreSQL connection.
     """
+    # TODO: Convert this to use db_pool, asyncpg has built-ins for it.
     db_url = os.getenv("DATABASE_URL")
     if db_url is None:
         raise RuntimeError("DATABASE_URL is not set")
