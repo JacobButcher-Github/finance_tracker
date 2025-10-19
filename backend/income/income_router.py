@@ -20,7 +20,9 @@ income_router = APIRouter()
 
 @income_router.get("/income/")
 async def get_income(db: Connection = Depends(get_postgres_connection)):
-    # this definitely needs to change. We need to get the *last* months info.
+    # TODO: this definitely needs to change. We need to get the *last* months info.
+    # Or potentially even multiple depending on user settings. This is a placeholder,
+    # but might just make it call the get endpoint with however many months the user has loaded.
     now: date = datetime.now().date()
     results = await get_one(db, now)
     return JSONResponse(content=jsonable_encoder(results))
@@ -43,10 +45,7 @@ async def insert_income(
     return {"message": "Income inserted succesfully"}
 
 
-@income_router.post("/income/add")
-async def update_income(db: Connection = Depends(get_postgres_connection)): ...
-
-
 @income_router.post("/income/delete")
 async def delete_income(date: date, db: Connection = Depends(get_postgres_connection)):
     await delete(db, date)
+    return {"message": "Income deleted succesfully"}

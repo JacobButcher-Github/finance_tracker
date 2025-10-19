@@ -5,7 +5,7 @@ from datetime import date
 import pydantic
 
 
-class expenditure(pydantic.BaseModel):
+class Expenditure(pydantic.BaseModel):
     id: int
     date: date
     category: str

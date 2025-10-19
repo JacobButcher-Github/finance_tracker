@@ -1,4 +1,5 @@
 # STL
+from collections.abc import Sequence
 from datetime import date
 
 # UV/PDM
@@ -8,7 +9,7 @@ from asyncpg import Connection
 from common import database_execute, database_fetch
 
 
-async def insert(db: Connection, item: [str, float | date | str]) -> None:
+async def insert(db: Connection, item: dict[str, float | date | str]) -> None:
     """
     To be used by expenditure "/insert" endpoint to insert given data item.
     Expenditures have ids, and are allowed to duplicate across months unlike the rest of the tables.
@@ -26,7 +27,7 @@ async def insert(db: Connection, item: [str, float | date | str]) -> None:
     )
 
     if existing:
-        await multi_field_update_income(db)
+        await multi_field_update_expenditure(db)
 
     await database_execute(
         db,
@@ -56,3 +57,34 @@ async def get_one_date(db: Connection, date_info: date):
         WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
     return await database_fetch(db, query, (date_info,))
+
+
+async def get_many_date(db: Connection, date_info: Sequence[date]):
+    query = """
+        SELECT *
+        FROM expenditure
+        WHERE DATE_TRUNC('month', date) IN (
+            SELECT DATE_TRUNC('month', d::date)
+            FROM UNNEST($1::date[]) as d
+        )
+    """
+    return await database_fetch(db, query, date_info)
+
+
+async def update_expenditure(db: Connection): ...
+
+
+async def multi_field_update_expenditure(db: Connection): ...
+
+
+async def delete(db: Connection, date_info: date) -> None:
+    query = """
+        DELETE *
+        FROM expenditure
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
+    """
+    # TODO: reconsider how this delete should work.
+    # Right now it deletes everything associated with that month,
+    # probably should make it more individual for how expenditure is laid out
+
+    return await database_execute(db, query, (date_info,))
