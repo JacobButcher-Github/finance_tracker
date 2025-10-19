@@ -1,4 +1,5 @@
 # STL
+from collections.abc import Sequence
 from datetime import date
 
 # UV/PDM
@@ -56,20 +57,32 @@ async def insert(db: Connection, item: dict[str, float | date]) -> None:
     )
 
 
-async def get(db: Connection, date_info: date):
+async def get_one(db: Connection, date_info: date):
     """
-    To be used by the "/" endpoint to return information on income.
+    enpint to return information on one income tied to one date.
     """
-    # TODO: consider that I'm going to use this when also increasing the number of months to view.
-    # I guess I need another enpoint?
-    # Perhaps get_multiple_income and just make it a different endpoint entirely is also reasonable.
-
     query = """
         SELECT * 
         FROM income 
         WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
     return await database_fetch(db, query, (date_info,))
+
+
+async def get_many(db: Connection, date_info: Sequence[date]):
+    """
+    To be used by the "/get" enpoint to return income information on a sequence of dates.
+    """
+
+    query = """
+        SELECT *
+        FROM income
+        WHERE DATE_TRUNC('month', date) IN (
+            SELECT DATE_TRUNC('month', d::date)
+            FROM UNNEST($1::date[]) AS d
+        )
+    """
+    return await database_fetch(db, query, date_info)
 
 
 async def update_income(db: Connection) -> None: ...

@@ -12,16 +12,16 @@ from fastapi.responses import JSONResponse
 from common import get_postgres_connection
 from schemas.income import Income
 
-from .income import delete, get, insert
+from .income import delete, get_one, insert
 
 income_router = APIRouter()
 
 
 @income_router.get("/income/")
 async def get_income(db: Connection = Depends(get_postgres_connection)):
-    # this probably needs to change. We need to get the *last* months info.
+    # this definitely needs to change. We need to get the *last* months info.
     now: date = datetime.now().date()
-    results = await get(db, now)
+    results = await get_one(db, now)
     return JSONResponse(content=jsonable_encoder(results))
 
 
