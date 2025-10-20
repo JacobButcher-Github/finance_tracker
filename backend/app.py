@@ -2,8 +2,8 @@
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from expenditure.expenditure_router import expenditure_router
 # local
+from expenditure.expenditure_router import expenditure_router
 from income.income_router import income_router
 
 app = FastAPI()

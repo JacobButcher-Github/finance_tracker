@@ -42,6 +42,7 @@ WORKDIR /app
 # Copy project files
 COPY --from=builder /app /app
 
+
 # Create non-root user
 RUN useradd -m appuser
 USER appuser

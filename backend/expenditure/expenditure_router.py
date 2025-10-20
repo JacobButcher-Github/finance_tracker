@@ -3,7 +3,6 @@ from collections.abc import Sequence
 from datetime import date, datetime
 
 # UV/PDM
-import asyncpg
 from asyncpg import Connection
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder

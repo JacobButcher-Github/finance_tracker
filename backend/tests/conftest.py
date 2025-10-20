@@ -1,6 +1,5 @@
 # STL
 import asyncio
-import os
 
 # PDM/UV
 import asyncpg

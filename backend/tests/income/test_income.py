@@ -49,4 +49,7 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
         FROM income
         WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
-    db_check = db_connection.fetch(query, (date(2025, 10, 15),))
+    db_check: list[dict[str, date | float]] = await db_connection.fetch(
+        query, (date(2025, 10, 15),)
+    )
+    assert db_check == []

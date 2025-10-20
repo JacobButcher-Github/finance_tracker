@@ -42,7 +42,7 @@ services:
       - DATABASE_URL=postgresql://postgres:password@db:5432/finances_test
     depends_on:
       - db
-    command: ["pytest", "-v", "--disable-warnings"]
+    command: ["uv", "run", "pytest", "-v", "--disable-warnings"]
     volumes:
       - ./backend:/app
     networks:
