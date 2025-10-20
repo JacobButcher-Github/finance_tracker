@@ -33,7 +33,20 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
     assert response.status_code == 200
 
     # Get
+    response = await client.get("/income/get", params=[("dates", "2025-10-15")])
+    assert response.status_code == 200
+    data: list[dict[str, date | float]] = response.json()
+    assert data[0] == test_income.model_dump()
 
     # Update
+    # Not implemented yet
 
     # Delete
+    response = await client.post("income/delete", params=[("dates", "2025-10-15")])
+    assert response.status_code == 200
+    query = """
+        SELECT *
+        FROM income
+        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
+    """
+    db_check = db_connection.fetch(query, (date(2025, 10, 15),))
