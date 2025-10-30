@@ -33,11 +33,11 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
     response = await client.post(
         "/income/insert", json=test_income.model_dump(mode="json")
     )
-    print(response.text)
     assert response.status_code == 200
 
     # Get
     response = await client.get("/income/get", params=[("dates", "2025-10-15")])
+    print(response.text)
     assert response.status_code == 200
     data: list[dict[str, date | float]] = response.json()
     assert data[0] == test_income.model_dump()
