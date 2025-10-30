@@ -28,8 +28,9 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
         total_tax=2.79,
         tax_percent_income=2.56,
     )
+
     # Insert
-    response = await client.post("/income/insert", json=test_income.model_dump())
+    response = await client.post("/income/insert", json=test_income.model_dump_json())
     assert response.status_code == 200
 
     # Get
