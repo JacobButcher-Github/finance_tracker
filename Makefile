@@ -30,7 +30,7 @@ deps:
 	yarn run build
 
 build:
-	$(COMPOSE_DEV) build api db
+	$(COMPOSE_DEV) build api db test-db
 
 build-force:
 	$(COMPOSE_DEV) build --no-cache api db
@@ -55,6 +55,6 @@ up-ci:
 	docker compose -f compose.yml -f compose.dev.yml up -d --force-recreate
 
 test:
-	$(COMPOSE_DEV) up -d test-db  
+	$(COMPOSE_DEV) up -d --force-recreate test-db 
 	$(COMPOSE_DEV) run --rm test 
 	$(COMPOSE_DEV) down

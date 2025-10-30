@@ -39,7 +39,7 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/finances
+      - DATABASE_URL=postgresql://postgres:password@test-db:5432/finances_test
     depends_on:
       - test-db
     command: ["uv", "run", "pytest", "-v", "--disable-warnings"]
@@ -48,14 +48,14 @@ services:
     networks:
       - web
   test-db:
-    container_name: "finances_test"
+    container_name: "finances-postgres-test"
     build:
       context: .
       dockerfile: db/Dockerfile
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=finances
+      - POSTGRES_DB=finances_test
     ports:
       - "5432:5432"
     networks:
