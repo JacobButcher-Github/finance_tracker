@@ -9,7 +9,7 @@ from asyncpg import Connection
 from httpx import ASGITransport, AsyncClient
 
 # LOCAL
-from app import app
+from app.app import app
 from common import get_postgres_connection
 from tests.constants import TEST_DATABASE_URL
 

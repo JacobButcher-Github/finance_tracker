@@ -1,5 +1,5 @@
 # uv/pdm
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # local

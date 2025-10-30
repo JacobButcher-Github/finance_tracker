@@ -21,7 +21,7 @@ RUN uv sync --frozen
 # Copy project files after dependencies
 COPY backend/ /app
 
-# Optional: re-sync to ensure latest project requirements are installed
+# re-sync to ensure latest project requirements are installed
 RUN uv sync --frozen
 
 # Final image
