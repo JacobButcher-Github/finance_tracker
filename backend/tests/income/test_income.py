@@ -30,7 +30,10 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
     )
 
     # Insert
-    response = await client.post("/income/insert", json=test_income.model_dump_json())
+    response = await client.post(
+        "/income/insert", json=test_income.model_dump(mode="json")
+    )
+    print(response.text)
     assert response.status_code == 200
 
     # Get
