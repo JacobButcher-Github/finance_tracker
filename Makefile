@@ -55,5 +55,6 @@ up-ci:
 	docker compose -f compose.yml -f compose.dev.yml up -d --force-recreate
 
 test:
-	$(COMPOSE_DEV) up -d db  
+	$(COMPOSE_DEV) up -d test-db  
 	$(COMPOSE_DEV) run --rm test 
+	$(COMPOSE_DEV) down

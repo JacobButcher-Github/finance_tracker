@@ -10,7 +10,7 @@ from httpx import ASGITransport, AsyncClient
 
 # LOCAL
 from app.app import app
-from common import get_postgres_connection
+from app.common import get_postgres_connection
 from tests.constants import TEST_DATABASE_URL
 
 
@@ -22,7 +22,7 @@ def event_loop():
     loop.close()
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(scope="session", autouse=True)
 async def test_db():
     """Create and teardown a clean test database."""
     conn = await asyncpg.connect(TEST_DATABASE_URL)
