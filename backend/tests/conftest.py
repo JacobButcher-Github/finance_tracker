@@ -4,6 +4,7 @@ import asyncio
 # PDM/UV
 import asyncpg
 import pytest
+import pytest_asyncio
 from asyncpg import Connection
 from httpx import ASGITransport, AsyncClient
 
@@ -49,7 +50,7 @@ async def db_connection():
     await conn.close()
 
 
-@pytest.fixture()
+@pytest_asyncio.fixture()
 async def client(db_connection: Connection):
     """Provide a FastAPI test client that uses the test DB."""
 
@@ -61,3 +62,5 @@ async def client(db_connection: Connection):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
+
+    app.dependency_overrides.clear()
