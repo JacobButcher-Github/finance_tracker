@@ -5,7 +5,7 @@ from datetime import date, datetime
 # UV/PDM
 import asyncpg
 from asyncpg import Connection
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
@@ -30,7 +30,8 @@ async def get_income(db: Connection = Depends(get_postgres_connection)):
 
 @income_router.get("/income/get")
 async def get_many_income(
-    dates: Sequence[date], db: Connection = Depends(get_postgres_connection)
+    dates: Sequence[date] = Query(...),
+    db: Connection = Depends(get_postgres_connection),
 ):
     results = await get_many(db, dates)
     return JSONResponse(content=jsonable_encoder(results))
