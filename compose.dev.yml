@@ -30,9 +30,35 @@ services:
       - "5432:5432"
     networks:
       - web
-# finance_tracker:
-#   build:
-#     context: .
-#     dockerfile:
+  # finance_tracker:
+  #   build:
+  #     context: .
+  #     dockerfile:
+  test:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@test-db:5432/finances_test
+    depends_on:
+      - test-db
+    command: ["uv", "run", "pytest", "-v", "--disable-warnings"]
+    volumes:
+      - ./backend:/app
+    networks:
+      - web
+  test-db:
+    container_name: "finances-postgres-test"
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=finances_test
+    ports:
+      - "5432:5432"
+    networks:
+      - web
 networks:
   web:

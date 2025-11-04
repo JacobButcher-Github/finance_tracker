@@ -1,7 +1,8 @@
 [project]
 name = "backend"
 version = "0.1.0"
-description = "Add your description here"
+description = ""
+authors = [{ name = "Jacob Butcher"}]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -9,5 +10,17 @@ dependencies = [
     "asyncpg>=0.30.0",
     "asyncpg-stubs>=0.30.2",
     "fastapi[standard]>=0.118.2",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
     "uvicorn[standard]>=0.37.0",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests"
+]
+pythonpath = [
+    "."
 ]

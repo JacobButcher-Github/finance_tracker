@@ -19,6 +19,7 @@ node_modules
 .pnp.*
 
 # Python-generated files
+.pytest_cache/
 __pycache__/
 *.py[oc]
 build/
@@ -28,3 +29,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# personal notes
+notes.md

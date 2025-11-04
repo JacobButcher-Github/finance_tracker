@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS income (
 );
 
 CREATE TABLE IF NOT EXISTS expenditure (
+  --Special in this table, can have multiple from the same date.
   id SERIAL UNIQUE,
   date DATE NOT NULL,
   category TEXT CHECK (LENGTH (category) < 100),

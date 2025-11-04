@@ -12,16 +12,7 @@ async def insert(db: Connection, item: dict[str, float | date]) -> None:
     """
     To be used by income "/insert" endpoint to insert given data as a new month
     """
-    existing_str = """
-        SELECT * 
-        FROM income 
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
-    """
-    existing = await database_fetch(db, existing_str, (item["date"],))
-
-    if existing:
-        await multi_field_update_income(db)
-
+    item["date"] = item["date"].replace(day=1)
     await database_execute(
         db,
         """
@@ -56,18 +47,28 @@ async def insert(db: Connection, item: dict[str, float | date]) -> None:
     )
 
 
-async def get(db: Connection, date_info: date):
+async def get_many(db: Connection, start_date: date, end_date: date):
     """
-    To be used by the "/" endpoint to return information on income.
+    To be used by the "/get" enpoint to return income information on a sequence of dates.
     """
-    # TODO: consider that I'm going to use this when also increasing the number of months to view.
-    # I guess I need another enpoint?
-    # Perhaps get_multiple_income and just make it a different endpoint entirely is also reasonable.
+
+    date_info: list[date] = []
+    current = date(start_date.year, start_date.month, 1)
+    while current <= end_date:
+        date_info.append(current)
+        if current.month == 12:
+            current = date(current.year + 1, 1, 1)
+        else:
+            current = date(current.year, current.month + 1, 1)
 
     query = """
-        SELECT * 
-        FROM income 
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
+        SELECT *
+        FROM income
+        WHERE DATE_TRUNC('month', date) IN (
+            SELECT DATE_TRUNC('month', d::date)
+            FROM UNNEST($1::date[]) AS d
+        )
+        ORDER BY date ASC
     """
     return await database_fetch(db, query, (date_info,))
 
@@ -79,9 +80,9 @@ async def multi_field_update_income(db: Connection) -> None: ...
 
 
 async def delete(db: Connection, date_info: date) -> None:
+    date_info = date_info.replace(day=1)
     query = """
-        DELETE *
-        FROM income
+        DELETE FROM income
         WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
     """
     return await database_execute(db, query, (date_info,))
