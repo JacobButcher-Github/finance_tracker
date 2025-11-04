@@ -11,6 +11,7 @@
 - [![TypeScript][TypeScript.org]][TypeScript-url]
 - [![Vite][vite.dev]][vite-url]
 - [![FastAPI][FastAPI.com]][FastAPI-url]
+- [![postgreSQL][postgresql.org]][postgreSQL-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -25,6 +26,12 @@
 <!-- USAGE EXAMPLES -->
 
 ## Usage
+
+### Docker
+
+```
+make up
+```
 
 <!-- ROADMAP -->
 
@@ -50,3 +57,5 @@
 [Docker-url]: https://www.docker.com/
 [TypeScript.org]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square
 [TypeScript-url]: https://www.typescriptlang.org/
+[postgreSQL.org]: https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white
+[postgreSQL-url]: https://www.postgresql.org/
