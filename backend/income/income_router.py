@@ -18,22 +18,13 @@ from .income import delete, get_many, get_one, insert
 income_router = APIRouter()
 
 
-@income_router.get("/income/")
-async def get_income(db: Connection = Depends(get_postgres_connection)):
-    # TODO: this definitely needs to change. We need to get the *last* months info.
-    # Or potentially even multiple depending on user settings. This is a placeholder,
-    # but might just make it call the get endpoint with however many months the user has loaded.
-    now: date = datetime.now().date()
-    results = await get_one(db, now)
-    return JSONResponse(content=jsonable_encoder(results))
-
-
 @income_router.get("/income/get")
 async def get_many_income(
     startDate: date = datetime.now().date(),
     endDate: date = datetime.now().date(),
     db: Connection = Depends(get_postgres_connection),
 ):
+
     results = await get_many(db, dates)
     return JSONResponse(content=jsonable_encoder(results))
 
