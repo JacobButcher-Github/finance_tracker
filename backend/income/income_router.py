@@ -20,12 +20,12 @@ income_router = APIRouter()
 
 @income_router.get("/income/get")
 async def get_many_income(
-    startDate: date = datetime.now().date(),
-    endDate: date = datetime.now().date(),
+    start_date: date = datetime.now().date(),
+    end_date: date = datetime.now().date(),
     db: Connection = Depends(get_postgres_connection),
 ):
 
-    results = await get_many(db, dates)
+    results = await get_many(db, start_date, end_date)
     return JSONResponse(content=jsonable_encoder(results))
 
 

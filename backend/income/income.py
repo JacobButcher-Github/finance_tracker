@@ -1,5 +1,4 @@
 # STL
-from collections.abc import Sequence
 from datetime import date
 
 # UV/PDM
@@ -13,16 +12,7 @@ async def insert(db: Connection, item: dict[str, float | date]) -> None:
     """
     To be used by income "/insert" endpoint to insert given data as a new month
     """
-    existing_str = """
-        SELECT * 
-        FROM income 
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
-    """
-    existing = await database_fetch(db, existing_str, (item["date"],))
-
-    if existing:
-        await multi_field_update_income(db)
-
+    item["date"] = item["date"].replace(day=1)
     await database_execute(
         db,
         """
@@ -69,10 +59,19 @@ async def get_one(db: Connection, date_info: date):
     return await database_fetch(db, query, (date_info,))
 
 
-async def get_many(db: Connection, date_info: Sequence[date]):
+async def get_many(db: Connection, start_date: date, end_date: date):
     """
     To be used by the "/get" enpoint to return income information on a sequence of dates.
     """
+
+    date_info: list[date] = []
+    current = date(start_date.year, start_date.month, 1)
+    while current <= end_date:
+        date_info.append(current)
+        if current.month == 12:
+            current = date(current.year + 1, 1, 1)
+        else:
+            current = date(current.year, current.month + 1, 1)
 
     query = """
         SELECT *
@@ -81,8 +80,9 @@ async def get_many(db: Connection, date_info: Sequence[date]):
             SELECT DATE_TRUNC('month', d::date)
             FROM UNNEST($1::date[]) AS d
         )
+        ORDER BY date ASC
     """
-    return await database_fetch(db, query, date_info)
+    return await database_fetch(db, query, (date_info,))
 
 
 async def update_income(db: Connection) -> None: ...
