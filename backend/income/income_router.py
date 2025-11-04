@@ -30,7 +30,8 @@ async def get_income(db: Connection = Depends(get_postgres_connection)):
 
 @income_router.get("/income/get")
 async def get_many_income(
-    dates: Sequence[date] = Query(...),
+    startDate: date = datetime.now().date(),
+    endDate: date = datetime.now().date(),
     db: Connection = Depends(get_postgres_connection),
 ):
     results = await get_many(db, dates)
