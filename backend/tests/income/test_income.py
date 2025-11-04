@@ -16,7 +16,7 @@ from schemas.income import Income
 async def test_income_crud_sequence(client: AsyncClient, db_connection: Connection):
     # Create a test Income
     test_income = Income(
-        date=date(2025, 10, 15),
+        date=date(2025, 10, 1),
         gross=10.10,
         k401=3.09,
         fed_tax=3.09,
@@ -36,22 +36,23 @@ async def test_income_crud_sequence(client: AsyncClient, db_connection: Connecti
     assert response.status_code == 200
 
     # Get
-    response = await client.get("/income/get", params=[("dates", "2025-10-15")])
-    print(response.text)
+    response = await client.get(
+        "/income/get", params=[("start_date", "2025-10-15"), ("end_date", "2025-10-15")]
+    )
     assert response.status_code == 200
     data: list[dict[str, date | float]] = response.json()
-    assert data[0] == test_income.model_dump()
+    parsed = Income.model_validate(data[0])
+    assert parsed == test_income
 
     # Update
     # Not implemented yet
 
     # Delete
-    response = await client.post("income/delete", params=[("dates", "2025-10-15")])
+    response = await client.post("income/delete", params=[("date", "2025-10-15")])
     assert response.status_code == 200
-    query = """
-        SELECT *
-        FROM income
-        WHERE DATE_TRUNC('month', date) = DATE_TRUNC('month', $1::date)
-    """
-    db_check = await db_connection.fetch(query, (date(2025, 10, 15),))
-    assert db_check == []
+    response = await client.get(
+        "/income/get", params=[("start_date", "2025-10-15"), ("end_date", "2025-10-15")]
+    )
+    assert response.status_code == 200
+    data: list[dict[str, date | float]] = response.json()
+    assert data == []

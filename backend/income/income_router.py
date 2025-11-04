@@ -1,11 +1,9 @@
 # STL
-from collections.abc import Sequence
 from datetime import date, datetime
 
 # UV/PDM
-import asyncpg
 from asyncpg import Connection
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
