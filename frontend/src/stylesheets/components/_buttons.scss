@@ -1,0 +1,36 @@
+// Button-specific variables
+$button-color: $secondary-color;
+
+/**
+ * Buttons
+ */
+.button {
+  display: block;
+  padding: 1rem;
+  color: $button-color;
+
+  /**
+   * Inlined buttons on large screens
+   */
+  @include respond-to("medium") {
+    display: inline-block;
+  }
+  @include respond-to("dark-mode") {
+    color: $dark-color;
+  }
+}
+
+/**
+ * Icons within buttons
+ */
+.button > svg {
+  fill: currentcolor;
+  // … etc.
+}
+
+/**
+ * Inline button
+ */
+.button--inline {
+  display: inline-block;
+}

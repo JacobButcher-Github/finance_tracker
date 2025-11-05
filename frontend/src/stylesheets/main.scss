@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+// 1. Base stuff
+@use "base/base";
+@use "base/fonts";
+@use "base/helpers";
+@use "base/typography";
+
+// 3. Layout-related sections
+@use "layout/footer";
+@use "layout/header";
+
+// 4. Components
+@use "components/button";
+
+// 5. Pages
+// dunno if this needs to be here yet
+
+// 6. Themes
+@use "themes/default";
+@use "themes/dark";
