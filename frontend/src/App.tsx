@@ -5,11 +5,15 @@ import Income from "./pages/income";
 import Expenditure from "./pages/expenditure";
 import House from "./pages/house";
 import Limits from "./pages/limits";
+import Settings from "./pages/settings";
+import Profile from "./pages/profile";
 import "./stylesheets/main.scss";
 
 const App: React.FC = () => {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? "tab active" : "tab";
+  const navLinkSettings = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "settings active" : "settings";
 
   return (
     <BrowserRouter>
@@ -31,6 +35,22 @@ const App: React.FC = () => {
             Limits
           </NavLink>
         </div>
+        <div className="right-tabs">
+          <label className="theme-switch">
+            <input type="checkbox" />
+            <span className="slider"></span>
+          </label>
+          <label className="mode-switch">
+            <input type="checkbox" />
+            <span className="slider"></span>
+          </label>
+          <NavLink to="/settings" end className={navLinkSettings}>
+            Settings
+          </NavLink>
+          <NavLink to="/profile" end className={navLinkSettings}>
+            Profile
+          </NavLink>
+        </div>
       </nav>
       <main>
         <Routes>
@@ -39,6 +59,8 @@ const App: React.FC = () => {
           <Route path="/expenditure" element={<Expenditure />}></Route>
           <Route path="/house" element={<House />}></Route>
           <Route path="/limits" element={<Limits />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Routes>
       </main>
     </BrowserRouter>
