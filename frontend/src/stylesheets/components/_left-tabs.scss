@@ -2,35 +2,57 @@
 
 .left-tabs {
   display: flex;
-  height: 100%; // ensures tabs fill navbar vertically
+  border-bottom: 1px solid #8bbf50;
+  height: 100%;
 
   .tab {
+    text-decoration: none;
+    color: var(--tab-text-inactive-color);
+    background-color: var(--tab-inactive-color);
     flex: 1;
     position: relative;
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: center;
     padding: 0.3rem 1rem;
+    margin: 0rem 0.5rem;
+    text-shadow: 0 1px 0 rgba(0, 2, 0, 0.4);
+    border-radius: 7px 7px 0 0;
 
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
-
-    background-color: var(--tab-inactive-color);
-    color: var(--tab-text-inactive-color);
-    border: 1px solid var(--tab-inactive-border);
-    border-bottom: none;
+    // border: 1px solid var(--tab-inactive-border);
+    // border-bottom: none;
     cursor: pointer;
     transition: all 0.25s ease;
     text-decoration: none;
 
-    // Adds spacing between tabs visually
-    margin-right: 5px;
+    &:before,
+    &:after {
+      content: " ";
+      position: absolute;
+      top: 0;
+      width: 23px;
+      height: 100%;
+      background-color: inherit;
+    }
+    &:before {
+      border-radius: 12px 0 0 0;
+      transform: skew(-24deg);
+      left: -10px; /* play with this one to give the LI border ~2px extrusion */
+    }
+    &:after {
+      border-radius: 0 12px 0 0;
+      transform: skew(24deg);
+      right: -10px; /* play with this one to give the LI border ~2px extrusion */
+      border-right: 1px solid #628e2f;
+      z-index: 1; /* overlap next element */
+    }
 
     &.active {
       background-color: var(--tab-active-color);
       color: var(--tab-text-active-color);
       border-color: transparent;
       z-index: 2;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     &:hover {
