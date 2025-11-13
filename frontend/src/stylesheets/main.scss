@@ -1,21 +1,20 @@
 @charset "UTF-8";
 
 // 1. Base stuff
-// @use "base/base";
+@use "base/base";
 // @use "base/fonts";
 // @use "base/helpers";
 // @use "base/typography";
-//
+
+// // 2. Themes
+@use "themes/default";
+@use "themes/dark";
+
 // // 3. Layout-related sections
-// @use "layout/footer";
-// @use "layout/header";
+@use "layout/navbar";
 //
 // // 4. Components
-// @use "components/button";
+@use "components/left-tabs";
 //
 // // 5. Pages
 // // dunno if this needs to be here yet
-//
-// // 6. Themes
-// @use "themes/default";
-// @use "themes/dark";

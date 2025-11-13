@@ -1,0 +1,9 @@
+@use "../abstracts";
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  // align-items: center;
+  // padding: 0.75rem 1.5rem;
+  background-color: var(--nav-background-color);
+}
