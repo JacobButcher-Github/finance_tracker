@@ -28,18 +28,18 @@
       position: absolute;
       top: -1px;
       width: 23px;
-      height: calc(100% + 2px); /* extend to cover bottom gap */
+      height: calc(100% + 3px); /* extend to cover bottom gap */
       background-color: inherit;
     }
     &:before {
       border-radius: 12px 0 0 0;
       transform: skew(-24deg);
-      left: -10px; /* play with this one to give the LI border ~2px extrusion */
+      left: -10px;
     }
     &:after {
       border-radius: 0 12px 0 0;
       transform: skew(24deg);
-      right: -10px; /* play with this one to give the LI border ~2px extrusion */
+      right: -10px;
       border-right: 1px solid #628e2f;
       z-index: 1; /* overlap next element */
     }
@@ -48,7 +48,6 @@
       background-color: var(--tab-active-color);
       color: var(--tab-text-active-color);
       border-color: transparent;
-      border-bottom: 1px solid var(--tab-active-color);
       z-index: 2;
 
       &:hover {
