@@ -12,9 +12,11 @@
 
 // // 3. Layout-related sections
 @use "layout/navbar";
-//
+
 // // 4. Components
 @use "components/left-tabs";
-//
+@use "components/right-tabs";
+@use "components/round-toggle.scss";
+
 // // 5. Pages
 // // dunno if this needs to be here yet

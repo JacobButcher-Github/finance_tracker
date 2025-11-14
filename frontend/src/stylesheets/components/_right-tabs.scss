@@ -1,0 +1,9 @@
+@use "../abstracts";
+
+.right-tabs {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 10px;
+  transform: translateY(-3px);
+}
