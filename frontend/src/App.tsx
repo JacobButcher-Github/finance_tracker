@@ -13,7 +13,9 @@ const App: React.FC = () => {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? "tab active" : "tab";
   const navLinkSettings = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "settings active" : "settings";
+    isActive ? "settings-button active" : "settings-button";
+  const navLinkProfile = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "profile active" : "profile";
 
   return (
     <BrowserRouter>
@@ -47,7 +49,7 @@ const App: React.FC = () => {
           <NavLink to="/settings" end className={navLinkSettings}>
             Settings
           </NavLink>
-          <NavLink to="/profile" end className={navLinkSettings}>
+          <NavLink to="/profile" end className={navLinkProfile}>
             Profile
           </NavLink>
         </div>

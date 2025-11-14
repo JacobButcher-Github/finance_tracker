@@ -28,9 +28,7 @@ $button-color: $secondary-color;
   // … etc.
 }
 
-/**
- * Inline button
- */
-.button--inline {
-  display: inline-block;
+.settings-button {
+  &.active {
+  }
 }
